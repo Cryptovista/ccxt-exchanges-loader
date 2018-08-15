@@ -2,7 +2,7 @@
   "name": "ccxt-exchanges-loader",
   "version": "0.1.0",
   "description": "Filter ccxt exchanges that you want to include in your Webpack bundle.",
-  "main": "ccxt-exchanges-loader.js",
+  "main": "lib/ccxt-exchanges-loader.js",
   "scripts": {
     "lint": "eslint lib/** test/**.spec.js --quiet",
     "release": "standard-version",
