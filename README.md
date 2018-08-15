@@ -5,14 +5,14 @@ This module is used to build [Cryptovista](https://cryptovista.app), a desktop a
 
 ## Use case
 
+> [CCXT](https://github.com/ccxt/ccxt) is a JavaScript / Python / PHP cryptocurrency trading library with support for more than 100 bitcoin/altcoin exchanges
+
 This loader is mostly useful if you:
 - ship ccxt with a frontend app
 - don't need all the exchanges that ccxt supports
 - use Webpack
 
 ## Smaller bundle: lighter, faster code.
-
-> [CCXT](https://github.com/ccxt/ccxt) is a JavaScript / Python / PHP cryptocurrency trading library with support for more than 100 bitcoin/altcoin exchanges
 
 ### How to use
 
