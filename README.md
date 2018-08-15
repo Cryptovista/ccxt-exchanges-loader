@@ -57,5 +57,5 @@ module.exports = {
 
 #### 3. Enjoy a lighter package
 
-<img align="center" src="https://github.com/Cryptovista/ccxt-exchanges-loader/blob/master/docs/images/filter-result.png" width="640" alt="Comparison with the loader. 2 MegaBytes vs 310 KiloBytes"/>
+<img align="center" src="https://github.com/Cryptovista/ccxt-exchanges-loader/blob/master/docs/images/filter-result.png" width="100%" alt="Comparison with the loader. 2 MegaBytes vs 310 KiloBytes"/>
 
