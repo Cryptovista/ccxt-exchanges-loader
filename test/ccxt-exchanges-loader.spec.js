@@ -9,20 +9,17 @@ const expectedSource = fs.readFileSync(path.join(__dirname, 'expectedSource.js')
 describe('sourceModifier', () => {
   describe('parseExchangesFromSource()', () => {
     it('should gather all the exchanges from ccxt source', () => {
-      const parsedExchanges = sourceModifier.parseExchangesFromSource(ccxtSource)
+      const parsedExchanges = sourceModifier.parseExchangesFromSource(
+        ccxtSource,
+        sourceModifier.exchangeRequiresRegex
+      )
       expect(parsedExchanges).toEqual(expectedExchangesFromSource)
     })
   })
 
   describe('filterExchanges', () => {
     it('should replace the require statement in ccxt source', () => {
-      const exchangesToKeep = [
-        'binance',
-        'kraken',
-        'bittrex',
-        'huobi',
-        'coinbase',
-      ]
+      const exchangesToKeep = ['binance', 'kraken']
 
       const updatedSource = sourceModifier.filterExchanges(ccxtSource, exchangesToKeep)
       expect(updatedSource).toBe(expectedSource)
@@ -32,9 +29,6 @@ describe('sourceModifier', () => {
       const exchangesToKeep = [
         'kraken',
         'bynance', // <- BAD
-        'bittrex',
-        'huobi',
-        'coinbase',
       ]
 
       expect(() => {

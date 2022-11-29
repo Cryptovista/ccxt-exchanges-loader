@@ -1,18 +1,21 @@
-// from: https://github.com/ccxt/ccxt/blob/master/ccxt.js
-
 "use strict";
 
 /*
+
 MIT License
+
 Copyright (c) 2017 Igor Kroitor
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,159 +23,209 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
 
-"use strict";
+*/
 
 //-----------------------------------------------------------------------------
 
 const Exchange  = require ('./js/base/Exchange')
+    , wsExchange = require ('./js/pro/base/Exchange')
+    , Precise   = require ('./js/base/Precise')
     , functions = require ('./js/base/functions')
     , errors    = require ('./js/base/errors')
 
 //-----------------------------------------------------------------------------
 // this is updated by vss.js when building
 
-const version = '1.17.127'
+const version = '2.2.40'
 
 Exchange.ccxtVersion = version
 
 //-----------------------------------------------------------------------------
 
 const exchanges = {
-    '_1broker':                require ('./js/_1broker.js'),
-    '_1btcxe':                 require ('./js/_1btcxe.js'),
-    'acx':                     require ('./js/acx.js'),
-    'allcoin':                 require ('./js/allcoin.js'),
-    'anxpro':                  require ('./js/anxpro.js'),
-    'anybits':                 require ('./js/anybits.js'),
-    'bcex':                    require ('./js/bcex.js'),
+    'aax':                     require ('./js/aax.js'),
+    'alpaca':                  require ('./js/alpaca.js'),
+    'ascendex':                require ('./js/ascendex.js'),
+    'bequant':                 require ('./js/bequant.js'),
     'bibox':                   require ('./js/bibox.js'),
     'bigone':                  require ('./js/bigone.js'),
     'binance':                 require ('./js/binance.js'),
+    'binancecoinm':            require ('./js/binancecoinm.js'),
+    'binanceus':               require ('./js/binanceus.js'),
+    'binanceusdm':             require ('./js/binanceusdm.js'),
     'bit2c':                   require ('./js/bit2c.js'),
     'bitbank':                 require ('./js/bitbank.js'),
     'bitbay':                  require ('./js/bitbay.js'),
+    'bitbns':                  require ('./js/bitbns.js'),
+    'bitcoincom':              require ('./js/bitcoincom.js'),
     'bitfinex':                require ('./js/bitfinex.js'),
     'bitfinex2':               require ('./js/bitfinex2.js'),
     'bitflyer':                require ('./js/bitflyer.js'),
+    'bitforex':                require ('./js/bitforex.js'),
+    'bitget':                  require ('./js/bitget.js'),
     'bithumb':                 require ('./js/bithumb.js'),
-    'bitkk':                   require ('./js/bitkk.js'),
-    'bitlish':                 require ('./js/bitlish.js'),
-    'bitmarket':               require ('./js/bitmarket.js'),
+    'bitmart':                 require ('./js/bitmart.js'),
     'bitmex':                  require ('./js/bitmex.js'),
-    'bitsane':                 require ('./js/bitsane.js'),
+    'bitopro':                 require ('./js/bitopro.js'),
+    'bitpanda':                require ('./js/bitpanda.js'),
+    'bitrue':                  require ('./js/bitrue.js'),
     'bitso':                   require ('./js/bitso.js'),
     'bitstamp':                require ('./js/bitstamp.js'),
     'bitstamp1':               require ('./js/bitstamp1.js'),
     'bittrex':                 require ('./js/bittrex.js'),
-    'bitz':                    require ('./js/bitz.js'),
+    'bitvavo':                 require ('./js/bitvavo.js'),
+    'bkex':                    require ('./js/bkex.js'),
     'bl3p':                    require ('./js/bl3p.js'),
-    'bleutrade':               require ('./js/bleutrade.js'),
-    'braziliex':               require ('./js/braziliex.js'),
+    'blockchaincom':           require ('./js/blockchaincom.js'),
     'btcalpha':                require ('./js/btcalpha.js'),
     'btcbox':                  require ('./js/btcbox.js'),
-    'btcchina':                require ('./js/btcchina.js'),
-    'btcexchange':             require ('./js/btcexchange.js'),
+    'btcex':                   require ('./js/btcex.js'),
     'btcmarkets':              require ('./js/btcmarkets.js'),
-    'btctradeim':              require ('./js/btctradeim.js'),
     'btctradeua':              require ('./js/btctradeua.js'),
     'btcturk':                 require ('./js/btcturk.js'),
-    'btcx':                    require ('./js/btcx.js'),
-    'bxinth':                  require ('./js/bxinth.js'),
-    'ccex':                    require ('./js/ccex.js'),
+    'buda':                    require ('./js/buda.js'),
+    'bybit':                   require ('./js/bybit.js'),
+    'bytetrade':               require ('./js/bytetrade.js'),
     'cex':                     require ('./js/cex.js'),
-    'chbtc':                   require ('./js/chbtc.js'),
-    'chilebit':                require ('./js/chilebit.js'),
-    'cobinhood':               require ('./js/cobinhood.js'),
     'coinbase':                require ('./js/coinbase.js'),
+    'coinbaseprime':           require ('./js/coinbaseprime.js'),
     'coinbasepro':             require ('./js/coinbasepro.js'),
     'coincheck':               require ('./js/coincheck.js'),
-    'coinegg':                 require ('./js/coinegg.js'),
     'coinex':                  require ('./js/coinex.js'),
-    'coinexchange':            require ('./js/coinexchange.js'),
     'coinfalcon':              require ('./js/coinfalcon.js'),
-    'coinfloor':               require ('./js/coinfloor.js'),
-    'coingi':                  require ('./js/coingi.js'),
-    'coinmarketcap':           require ('./js/coinmarketcap.js'),
     'coinmate':                require ('./js/coinmate.js'),
-    'coinnest':                require ('./js/coinnest.js'),
     'coinone':                 require ('./js/coinone.js'),
-    'coinsecure':              require ('./js/coinsecure.js'),
     'coinspot':                require ('./js/coinspot.js'),
-    'cointiger':               require ('./js/cointiger.js'),
-    'coolcoin':                require ('./js/coolcoin.js'),
-    'crypton':                 require ('./js/crypton.js'),
-    'cryptopia':               require ('./js/cryptopia.js'),
+    'crex24':                  require ('./js/crex24.js'),
+    'cryptocom':               require ('./js/cryptocom.js'),
+    'currencycom':             require ('./js/currencycom.js'),
+    'delta':                   require ('./js/delta.js'),
     'deribit':                 require ('./js/deribit.js'),
-    'dsx':                     require ('./js/dsx.js'),
-    'ethfinex':                require ('./js/ethfinex.js'),
+    'digifinex':               require ('./js/digifinex.js'),
     'exmo':                    require ('./js/exmo.js'),
-    'exx':                     require ('./js/exx.js'),
-    'fcoin':                   require ('./js/fcoin.js'),
     'flowbtc':                 require ('./js/flowbtc.js'),
-    'foxbit':                  require ('./js/foxbit.js'),
-    'fybse':                   require ('./js/fybse.js'),
-    'fybsg':                   require ('./js/fybsg.js'),
-    'gatecoin':                require ('./js/gatecoin.js'),
+    'fmfwio':                  require ('./js/fmfwio.js'),
+    'gate':                    require ('./js/gate.js'),
     'gateio':                  require ('./js/gateio.js'),
-    'gdax':                    require ('./js/gdax.js'),
     'gemini':                  require ('./js/gemini.js'),
-    'getbtc':                  require ('./js/getbtc.js'),
-    'hadax':                   require ('./js/hadax.js'),
     'hitbtc':                  require ('./js/hitbtc.js'),
-    'hitbtc2':                 require ('./js/hitbtc2.js'),
+    'hitbtc3':                 require ('./js/hitbtc3.js'),
+    'hollaex':                 require ('./js/hollaex.js'),
     'huobi':                   require ('./js/huobi.js'),
-    'huobicny':                require ('./js/huobicny.js'),
+    'huobijp':                 require ('./js/huobijp.js'),
     'huobipro':                require ('./js/huobipro.js'),
-    'ice3x':                   require ('./js/ice3x.js'),
+    'idex':                    require ('./js/idex.js'),
     'independentreserve':      require ('./js/independentreserve.js'),
     'indodax':                 require ('./js/indodax.js'),
     'itbit':                   require ('./js/itbit.js'),
-    'jubi':                    require ('./js/jubi.js'),
     'kraken':                  require ('./js/kraken.js'),
     'kucoin':                  require ('./js/kucoin.js'),
+    'kucoinfutures':           require ('./js/kucoinfutures.js'),
     'kuna':                    require ('./js/kuna.js'),
-    'lakebtc':                 require ('./js/lakebtc.js'),
+    'latoken':                 require ('./js/latoken.js'),
     'lbank':                   require ('./js/lbank.js'),
-    'liqui':                   require ('./js/liqui.js'),
-    'livecoin':                require ('./js/livecoin.js'),
+    'lbank2':                  require ('./js/lbank2.js'),
+    'liquid':                  require ('./js/liquid.js'),
     'luno':                    require ('./js/luno.js'),
     'lykke':                   require ('./js/lykke.js'),
     'mercado':                 require ('./js/mercado.js'),
-    'mixcoins':                require ('./js/mixcoins.js'),
-    'negociecoins':            require ('./js/negociecoins.js'),
-    'nova':                    require ('./js/nova.js'),
-    'okcoincny':               require ('./js/okcoincny.js'),
-    'okcoinusd':               require ('./js/okcoinusd.js'),
+    'mexc':                    require ('./js/mexc.js'),
+    'mexc3':                   require ('./js/mexc3.js'),
+    'ndax':                    require ('./js/ndax.js'),
+    'novadax':                 require ('./js/novadax.js'),
+    'oceanex':                 require ('./js/oceanex.js'),
+    'okcoin':                  require ('./js/okcoin.js'),
     'okex':                    require ('./js/okex.js'),
+    'okex5':                   require ('./js/okex5.js'),
+    'okx':                     require ('./js/okx.js'),
     'paymium':                 require ('./js/paymium.js'),
+    'phemex':                  require ('./js/phemex.js'),
     'poloniex':                require ('./js/poloniex.js'),
-    'qryptos':                 require ('./js/qryptos.js'),
-    'quadrigacx':              require ('./js/quadrigacx.js'),
-    'quoinex':                 require ('./js/quoinex.js'),
-    'rightbtc':                require ('./js/rightbtc.js'),
-    'southxchange':            require ('./js/southxchange.js'),
-    'surbitcoin':              require ('./js/surbitcoin.js'),
-    'theocean':                require ('./js/theocean.js'),
+    'probit':                  require ('./js/probit.js'),
+    'qtrade':                  require ('./js/qtrade.js'),
+    'ripio':                   require ('./js/ripio.js'),
+    'stex':                    require ('./js/stex.js'),
     'therock':                 require ('./js/therock.js'),
-    'tidebit':                 require ('./js/tidebit.js'),
     'tidex':                   require ('./js/tidex.js'),
-    'uex':                     require ('./js/uex.js'),
-    'urdubit':                 require ('./js/urdubit.js'),
-    'vaultoro':                require ('./js/vaultoro.js'),
-    'vbtc':                    require ('./js/vbtc.js'),
-    'virwox':                  require ('./js/virwox.js'),
-    'wex':                     require ('./js/wex.js'),
-    'xbtce':                   require ('./js/xbtce.js'),
+    'timex':                   require ('./js/timex.js'),
+    'tokocrypto':              require ('./js/tokocrypto.js'),
+    'upbit':                   require ('./js/upbit.js'),
+    'wavesexchange':           require ('./js/wavesexchange.js'),
+    'wazirx':                  require ('./js/wazirx.js'),
+    'whitebit':                require ('./js/whitebit.js'),
+    'woo':                     require ('./js/woo.js'),
     'yobit':                   require ('./js/yobit.js'),
-    'yunbi':                   require ('./js/yunbi.js'),
     'zaif':                    require ('./js/zaif.js'),
-    'zb':                      require ('./js/zb.js'),    
+    'zb':                      require ('./js/zb.js'),
+    'zipmex':                  require ('./js/zipmex.js'),
+    'zonda':                   require ('./js/zonda.js'),
 }
+
+const pro = {
+    'aax':                     require ('./js/pro/aax.js'),
+    'ascendex':                require ('./js/pro/ascendex.js'),
+    'bequant':                 require ('./js/pro/bequant.js'),
+    'binance':                 require ('./js/pro/binance.js'),
+    'binancecoinm':            require ('./js/pro/binancecoinm.js'),
+    'binanceus':               require ('./js/pro/binanceus.js'),
+    'binanceusdm':             require ('./js/pro/binanceusdm.js'),
+    'bitcoincom':              require ('./js/pro/bitcoincom.js'),
+    'bitfinex':                require ('./js/pro/bitfinex.js'),
+    'bitfinex2':               require ('./js/pro/bitfinex2.js'),
+    'bitmart':                 require ('./js/pro/bitmart.js'),
+    'bitmex':                  require ('./js/pro/bitmex.js'),
+    'bitopro':                 require ('./js/pro/bitopro.js'),
+    'bitstamp':                require ('./js/pro/bitstamp.js'),
+    'bittrex':                 require ('./js/pro/bittrex.js'),
+    'bitvavo':                 require ('./js/pro/bitvavo.js'),
+    'bybit':                   require ('./js/pro/bybit.js'),
+    'cex':                     require ('./js/pro/cex.js'),
+    'coinbaseprime':           require ('./js/pro/coinbaseprime.js'),
+    'coinbasepro':             require ('./js/pro/coinbasepro.js'),
+    'coinex':                  require ('./js/pro/coinex.js'),
+    'cryptocom':               require ('./js/pro/cryptocom.js'),
+    'currencycom':             require ('./js/pro/currencycom.js'),
+    'deribit':                 require ('./js/pro/deribit.js'),
+    'exmo':                    require ('./js/pro/exmo.js'),
+    'gate':                    require ('./js/pro/gate.js'),
+    'gateio':                  require ('./js/pro/gateio.js'),
+    'hitbtc':                  require ('./js/pro/hitbtc.js'),
+    'hollaex':                 require ('./js/pro/hollaex.js'),
+    'huobi':                   require ('./js/pro/huobi.js'),
+    'huobijp':                 require ('./js/pro/huobijp.js'),
+    'huobipro':                require ('./js/pro/huobipro.js'),
+    'idex':                    require ('./js/pro/idex.js'),
+    'kraken':                  require ('./js/pro/kraken.js'),
+    'kucoin':                  require ('./js/pro/kucoin.js'),
+    'luno':                    require ('./js/pro/luno.js'),
+    'mexc':                    require ('./js/pro/mexc.js'),
+    'ndax':                    require ('./js/pro/ndax.js'),
+    'okcoin':                  require ('./js/pro/okcoin.js'),
+    'okex':                    require ('./js/pro/okex.js'),
+    'okx':                     require ('./js/pro/okx.js'),
+    'phemex':                  require ('./js/pro/phemex.js'),
+    'ripio':                   require ('./js/pro/ripio.js'),
+    'upbit':                   require ('./js/pro/upbit.js'),
+    'wazirx':                  require ('./js/pro/wazirx.js'),
+    'whitebit':                require ('./js/pro/whitebit.js'),
+    'zb':                      require ('./js/pro/zb.js'),
+    'zipmex':                  require ('./js/pro/zipmex.js'),
+}
+
+for (const exchange in pro) {
+    const ccxtExchange = exchanges[exchange]
+    const baseExchange = Object.getPrototypeOf (ccxtExchange)
+    if (baseExchange.name === 'Exchange') {
+        Object.setPrototypeOf (ccxtExchange, wsExchange)
+        Object.setPrototypeOf (ccxtExchange.prototype, wsExchange.prototype)
+    }
+}
+
+pro.exchanges = Object.keys (pro)
 
 //-----------------------------------------------------------------------------
 
-module.exports = Object.assign ({ version, Exchange, exchanges: Object.keys (exchanges) }, exchanges, functions, errors)
+module.exports = Object.assign ({ version, Exchange, Precise, 'exchanges': Object.keys (exchanges), pro }, exchanges, functions, errors)
 
 //-----------------------------------------------------------------------------
