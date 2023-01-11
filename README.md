@@ -1,28 +1,31 @@
 # ccxt-exchanges-loader
+
 > Filter ccxt exchanges that you want to include in your Webpack bundle.
 
-This module is used to build [Cryptovista](https://cryptovista.app), a desktop app to monitor crypto portfolios, news and market in a single place. For Mac and Windows.
+This module is used to build [Cryptovista](https://cryptovista.app), a desktop app to monitor crypto portfolios, news and market in a single place.
 
 ## Use case
 
-> [CCXT](https://github.com/ccxt/ccxt) is a JavaScript / Python / PHP cryptocurrency trading library with support for more than 100 bitcoin/altcoin exchanges
+> [ccxt](https://github.com/ccxt/ccxt) is a JavaScript / Python / PHP cryptocurrency trading library with support for more than 100 bitcoin/altcoin exchanges
 
-This loader is mostly useful if you:
+This loader is useful if you:
+
 - ship ccxt with a frontend app
 - don't need all the exchanges that ccxt supports
-- use Webpack
+- don't need the pro features
 
-## Smaller bundle: lighter, faster code.
+You will get a **smaller bundle: lighter, faster code.**
 
-### How to use
+## How to use
 
-#### 1. Install
+### 1. Install
 
 ```bash
 npm install ccxt-exchanges-loader -DE
 ```
 
-#### 2. Webpack config
+### 2. Webpack config
+
 Add the loader to your config:
 
 ```js
@@ -36,15 +39,8 @@ module.exports = {
           {
             loader: 'ccxt-exchanges-loader',
             options: {
-              exchanges: [
-                'binance',
-                'coinbase',
-                'cryptopia',
-                'huobipro',
-                'kraken',
-                'okex',
-                'bittrex'
-              ]
+              exchanges: ['binance', 'kraken'],
+              removePro: true
             }
           }
         ],
@@ -55,7 +51,10 @@ module.exports = {
 }
 ```
 
-#### 3. Enjoy a lighter package
+### 3. Enjoy a lighter package
 
 <img align="center" src="https://github.com/Cryptovista/ccxt-exchanges-loader/blob/master/docs/images/filter-result.png" width="100%" alt="Comparison with the loader. 2 MegaBytes vs 310 KiloBytes"/>
 
+## Warning
+
+The loader may become incompatible with newer versions of ccxt. In case of problem, open an issue.

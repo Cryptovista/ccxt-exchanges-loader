@@ -2,3 +2,6 @@ docs
 test
 node_modules
 .circleci
+.prettierrc
+.eslintrc.js
+.eslintignore
