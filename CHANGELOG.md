@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/Cryptovista/ccxt-exchanges-loader/compare/v1.0.0...v1.1.0) (2023-01-11)
+
+
+### Features
+
+* add options to remove pro features completely ([cd0d4ed](https://github.com/Cryptovista/ccxt-exchanges-loader/commit/cd0d4edada77032d6ce287de45f85df4b64cc8c4))
+
 ## [1.0.0](https://github.com/Cryptovista/ccxt-exchanges-loader/compare/v0.2.0...v1.0.0) (2022-11-29)
 
 
