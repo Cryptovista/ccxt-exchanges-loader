@@ -2,7 +2,11 @@
 
 > Filter ccxt exchanges that you want to include in your Webpack bundle.
 
-This module is used to build [Cryptovista](https://cryptovista.app), a desktop app to monitor crypto portfolios, news and market in a single place.
+
+## Version support
+
+* From v2, the loader supports ccxt v4.
+* For ccxt v2 support, use loader v1.
 
 ## Use case
 
