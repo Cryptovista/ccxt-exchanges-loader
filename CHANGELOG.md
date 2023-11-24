@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/Cryptovista/ccxt-exchanges-loader/compare/v1.1.0...v2.0.0) (2023-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* Will not work with v2 anymore, haven't tested v3
+
+### Features
+
+* support for ccxt v4 ([e605529](https://github.com/Cryptovista/ccxt-exchanges-loader/commit/e60552933da0823fc155bac752430bffe67109c5))
+
 ## [1.1.0](https://github.com/Cryptovista/ccxt-exchanges-loader/compare/v1.0.0...v1.1.0) (2023-01-11)
 
 
