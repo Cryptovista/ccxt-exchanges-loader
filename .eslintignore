@@ -1,5 +1,5 @@
 node_modules
 dist
-expectedSource.js
-expectedSourceWithoutPro.js
+expectedResult.js
+expectedResultWithoutPro.js
 ccxtSourceMock.js

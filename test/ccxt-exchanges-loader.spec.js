@@ -2,38 +2,27 @@ const fs = require('fs')
 const path = require('path')
 
 const sourceModifier = require('../lib/sourceModifier')
-const expectedExchangesFromSource = require('./expectedExchangesFromSource')
 const ccxtSource = fs.readFileSync(path.join(__dirname, 'ccxtSourceMock.js'), 'utf8')
-const expectedSource = fs.readFileSync(path.join(__dirname, 'expectedSource.js'), 'utf8')
-const expectedSourceWithoutPro = fs.readFileSync(
-  path.join(__dirname, 'expectedSourceWithoutPro.js'),
+const expectedResult = fs.readFileSync(path.join(__dirname, 'expectedResult.js'), 'utf8')
+const expectedResultWithoutPro = fs.readFileSync(
+  path.join(__dirname, 'expectedResultWithoutPro.js'),
   'utf8'
 )
 
 describe('sourceModifier', () => {
-  describe('parseExchangesFromSource()', () => {
-    it('should gather all the exchanges from ccxt source', () => {
-      const parsedExchanges = sourceModifier.parseExchangesFromSource(
-        ccxtSource,
-        sourceModifier.exchangeRequiresRegex
-      )
-      expect(parsedExchanges).toEqual(expectedExchangesFromSource)
-    })
-  })
-
   describe('filterExchanges', () => {
     it('should replace the require statement in ccxt source', () => {
       const exchangesToKeep = ['binance', 'kraken']
 
       const updatedSource = sourceModifier.filterExchanges(ccxtSource, exchangesToKeep)
-      expect(updatedSource).toBe(expectedSource)
+      expect(updatedSource).toBe(expectedResult)
     })
 
     it('should remove pro related code completely when needed', () => {
       const exchangesToKeep = ['binance', 'kraken']
 
       const updatedSource = sourceModifier.filterExchanges(ccxtSource, exchangesToKeep, true)
-      expect(updatedSource).toBe(expectedSourceWithoutPro)
+      expect(updatedSource).toBe(expectedResultWithoutPro)
     })
 
     it('should throw an error if exchange does not exist in the source', () => {
@@ -42,9 +31,9 @@ describe('sourceModifier', () => {
         'bynance', // <- BAD
       ]
 
-      expect(() => {
-        sourceModifier.filterExchanges(ccxtSource, exchangesToKeep)
-      }).toThrowError('"bynance" exchange not found in ccxt source.')
+      expect(() => sourceModifier.filterExchanges(ccxtSource, exchangesToKeep)).toThrowError(
+        'bynance exchange(s) not found in ccxt source.'
+      )
     })
   })
 })
